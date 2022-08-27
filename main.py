@@ -1,7 +1,6 @@
 from transaction import Transaction
 from transaction_pool import TransactionPool
 from wallet import Wallet
-from block import Block
 
 if __name__ == '__main__':
     sender = 'sender'
@@ -20,6 +19,7 @@ if __name__ == '__main__':
     if not pool.transaction_exists(transaction):
         pool.add_transaction(transaction)
 
-    block = Block(pool.transactions, 'prev_hash', 'forger', 0)
+    block = wallet.create_block(pool.transactions, 'prev_hash', 1)
+    signature_valid = Wallet.signature_valid(block.payload(), block.signature, wallet.public_key_string())
 
-    print(block.to_json())
+    print(signature_valid)

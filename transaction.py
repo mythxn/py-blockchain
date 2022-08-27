@@ -1,12 +1,13 @@
+import copy
 import time
 import uuid
 
 
 class Transaction():
 
-    def __init__(self, senderPubKey, receiverPubKey, amount, type):
-        self.sender = senderPubKey
-        self.recipient = receiverPubKey
+    def __init__(self, sender_pub_key, receiver_pub_key, amount, type):
+        self.sender = sender_pub_key
+        self.recipient = receiver_pub_key
         self.amount = amount
         self.type = type
         self.id = uuid.uuid1().hex
@@ -18,3 +19,8 @@ class Transaction():
 
     def sign(self, signature):
         self.signature = signature
+
+    def payload(self):
+        json_repr = copy.deepcopy(self.to_json())
+        json_repr['signature'] = ''
+        return json_repr

@@ -1,11 +1,21 @@
-from account_model import AccountModel
+from blockchain import Blockchain
+from transaction_pool import TransactionPool
 from wallet import Wallet
 
 if __name__ == '__main__':
 
-    wallet = Wallet()
-    account_model = AccountModel()
+    blockchain = Blockchain()
+    pool = TransactionPool()
 
-    account_model.update_balance(wallet.pub_key_string(), 5)
-    account_model.update_balance(wallet.pub_key_string(), -15)
-    print(account_model.balances)
+    alice = Wallet()
+    bob = Wallet()
+
+    # alice wants to send 5 tokens to bob
+    transaction = alice.create_transaction(bob.pub_key_string(), 5, 'transfer')
+
+    if not pool.transaction_exists(transaction):
+        pool.add_transaction(transaction)
+
+    covered_transactions = blockchain.get_covered_trasaction_set(pool.transactions)
+
+    print(covered_transactions)

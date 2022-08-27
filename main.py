@@ -1,4 +1,5 @@
 from transaction import Transaction
+from transaction_pool import TransactionPool
 from wallet import Wallet
 
 if __name__ == '__main__':
@@ -11,8 +12,14 @@ if __name__ == '__main__':
 
     wallet = Wallet()
     fraud_wallet = Wallet()
+    pool = TransactionPool()
 
     transaction = wallet.create_transaction(receiver, amount, type)
-    signature_valid = Wallet.signature_valid(transaction.payload(), transaction.signature, fraud_wallet.public_key_string())
 
-    print(signature_valid)
+    if not pool.transaction_exists(transaction):
+        pool.add_transaction(transaction)
+
+    if not pool.transaction_exists(transaction):
+        pool.add_transaction(transaction)
+
+    print(pool.transactions)

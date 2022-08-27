@@ -14,3 +14,14 @@ class Wallet():
         signature_scheme_obj = PKCS1_v1_5.new(self.key_pair)
         signature = signature_scheme_obj.sign(dataHash)
         return signature.hex()
+
+    @staticmethod
+    def signature_valid(data, signature, public_key_string):
+        signature = bytes.fromhex(signature)
+        dataHash = ChainUtils.hash(data)
+        pub_key = RSA.import_key(public_key_string)
+        signature_scheme_obj = PKCS1_v1_5.new(pub_key)
+        return signature_scheme_obj.verify(dataHash, signature)
+
+    def public_key_string(self):
+        return self.key_pair.publickey().export_key('PEM').decode('utf-8')

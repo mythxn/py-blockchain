@@ -10,9 +10,9 @@ if __name__ == '__main__':
     transaction = Transaction(sender, receiver, amount, type)
 
     wallet = Wallet()
-    signature = wallet.sign(transaction.to_json())
+    fraud_wallet = Wallet()
 
-    # transaction.sign(signature)
+    transaction = wallet.create_transaction(receiver, amount, type)
+    signature_valid = Wallet.signature_valid(transaction.payload(), transaction.signature, fraud_wallet.public_key_string())
 
-    signature_valid = wallet.signature_valid(transaction.to_json(), signature, wallet.public_key_string())
     print(signature_valid)

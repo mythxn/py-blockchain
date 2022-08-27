@@ -22,6 +22,8 @@ class Blockchain():
         return latest_blockchain_hash == block.prev_hash
 
     def transaction_covered(self, transaction):
+        if transaction.type == 'exchange':
+            return True
         sender_bal = self.account_model.get_balance(transaction.sender_pub_key)
         return sender_bal >= transaction.amount
 
@@ -31,5 +33,5 @@ class Blockchain():
             if self.transaction_covered(transaction):
                 covered_transactions.append(transaction)
             else:
-                print('Transaction not covered')
+                print('Transaction not covered by sender')
         return covered_transactions

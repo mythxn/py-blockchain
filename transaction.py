@@ -24,3 +24,6 @@ class Transaction():
         json_repr = copy.deepcopy(self.to_json())
         json_repr['signature'] = ''
         return json_repr
+
+    def __eq__(self, other):
+        return self.id() == other.id()

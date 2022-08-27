@@ -1,5 +1,7 @@
-from Crypto.Hash import SHA256
 import json
+
+from Crypto.Hash import SHA256
+
 
 class ChainUtils():
 

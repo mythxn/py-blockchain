@@ -13,3 +13,6 @@ class Transaction():
         self.id = uuid.uuid1().hex
         self.timestamp = time.time()
         self.signature = ''
+
+    def to_json(self):
+        return self.__dict__

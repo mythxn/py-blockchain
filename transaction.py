@@ -7,7 +7,7 @@ class Transaction():
 
     def __init__(self, sender_pub_key, receiver_pub_key, amount, type):
         self.sender_pub_key = sender_pub_key
-        self.recipient = receiver_pub_key
+        self.receiver_pub_key = receiver_pub_key
         self.amount = amount
         self.type = type
         self.id = uuid.uuid1().hex

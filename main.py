@@ -9,6 +9,11 @@ if __name__ == '__main__':
 
     alice = Wallet()
     bob = Wallet()
+    exchange = Wallet()
+
+    exchange_transaction = exchange.create_transaction(alice.pub_key_string(), 10, 'exchange')
+    if not pool.transaction_exists(exchange_transaction):
+        pool.add_transaction(exchange_transaction)
 
     # alice wants to send 5 tokens to bob
     transaction = alice.create_transaction(bob.pub_key_string(), 5, 'transfer')

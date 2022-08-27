@@ -23,7 +23,7 @@ if __name__ == '__main__':
     covered_transactions = blockchain.get_covered_trasaction_set(pool.transactions)
     prev_hash = ChainUtils.hash(blockchain.blocks[-1].payload()).hexdigest()
     block_count = len(blockchain.blocks)
-    block_one = Block(covered_transactions, prev_hash, forger.pub_key_string(), block_count)
+    block_one = forger.create_block(covered_transactions, prev_hash, block_count)
     blockchain.add_block(block_one)
 
     # alice wants to send 5 tokens to bob
@@ -35,7 +35,7 @@ if __name__ == '__main__':
     covered_transactions = blockchain.get_covered_trasaction_set(pool.transactions)
     prev_hash = ChainUtils.hash(blockchain.blocks[-1].payload()).hexdigest()
     block_count = len(blockchain.blocks)
-    block_two = Block(covered_transactions, prev_hash, forger.pub_key_string(), block_count)
+    block_two = forger.create_block(covered_transactions, prev_hash, block_count)
     blockchain.add_block(block_two)
 
     pprint(blockchain.to_json())

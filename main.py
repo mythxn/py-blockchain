@@ -1,6 +1,5 @@
 from pprint import pprint
 
-from block import Block
 from blockchain import Blockchain
 from chain_utils import ChainUtils
 from transaction_pool import TransactionPool
@@ -25,6 +24,7 @@ if __name__ == '__main__':
     block_count = len(blockchain.blocks)
     block_one = forger.create_block(covered_transactions, prev_hash, block_count)
     blockchain.add_block(block_one)
+    pool.remove_from_pool(block_one.transactions)
 
     # alice wants to send 5 tokens to bob
     transaction = alice.create_transaction(bob.pub_key_string(), 5, 'transfer')
@@ -37,5 +37,6 @@ if __name__ == '__main__':
     block_count = len(blockchain.blocks)
     block_two = forger.create_block(covered_transactions, prev_hash, block_count)
     blockchain.add_block(block_two)
+    pool.remove_from_pool(block_two.transactions)
 
     pprint(blockchain.to_json())

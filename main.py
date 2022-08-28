@@ -1,9 +1,13 @@
 from node import Node
+import sys
 
 if __name__ == '__main__':
 
-    node = Node()
+    ip = sys.argv[1]
+    port = int(sys.argv[2])
 
-    print(node.blockchain)
-    print(node.transaction_pool)
-    print(node.wallet)
+    node = Node(ip, port)
+    node.start_p2p()
+
+    if port == 10002:
+        node.p2p.connect_with_node('localhost', 10001)

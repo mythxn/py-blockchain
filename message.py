@@ -4,4 +4,3 @@ class Message():
         self.sender_connector = sender_connector
         self.msg_type = msg_type
         self.data = data
-

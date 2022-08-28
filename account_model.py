@@ -17,4 +17,3 @@ class AccountModel():
         if pub_key_string not in self.accounts:
             self.add_account(pub_key_string)
         self.balances[pub_key_string] += amount
-

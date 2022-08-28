@@ -1,5 +1,8 @@
+import json
+
 from p2pnetwork.node import Node
 
+from chain_utils import ChainUtils
 from peer_discovery_handler import PeerDiscoveryHandler
 from socket_connector import SocketConnector
 
@@ -28,7 +31,9 @@ class SocketCommunication(Node):
         self.peer_discovery_handler.handshake(connected_node)
 
     def node_message(self, connected_node, message):
-        print(message)
+        message = ChainUtils.decode(json.dumps(message))
+        if message.msg_type == 'discovery':
+            self.peer_discovery_handler.handle_message(message)
 
     def send(self, receiver, message):
         self.send_to_node(receiver, message)

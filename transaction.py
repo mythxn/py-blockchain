@@ -3,7 +3,7 @@ import time
 import uuid
 
 
-class Transaction():
+class Transaction:
 
     def __init__(self, sender_pub_key, receiver_pub_key, amount, type):
         self.sender_pub_key = sender_pub_key

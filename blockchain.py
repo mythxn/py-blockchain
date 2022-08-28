@@ -3,7 +3,7 @@ from block import Block
 from chain_utils import ChainUtils
 
 
-class Blockchain():
+class Blockchain:
     def __init__(self):
         self.blocks = [Block.genesis()]
         self.account_model = AccountModel()

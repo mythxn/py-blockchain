@@ -2,7 +2,7 @@ import copy
 import time
 
 
-class Block():
+class Block:
     def __init__(self, transactions, prev_hash, forger, block_count):
         self.transactions = transactions
         self.prev_hash = prev_hash

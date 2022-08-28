@@ -5,7 +5,7 @@ from chain_utils import ChainUtils
 from message import Message
 
 
-class PeerDiscoveryHandler():
+class PeerDiscoveryHandler:
 
     def __init__(self, node):
         self.socket_communication = node

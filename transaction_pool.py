@@ -1,4 +1,4 @@
-class TransactionPool():
+class TransactionPool:
     def __init__(self):
         self.transactions = []
 

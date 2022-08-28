@@ -7,7 +7,7 @@ from transaction_pool import TransactionPool
 from wallet import Wallet
 
 
-class Node():
+class Node:
 
     def __init__(self, ip, port):
         self.api = None

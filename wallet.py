@@ -6,7 +6,7 @@ from chain_utils import ChainUtils
 from transaction import Transaction
 
 
-class Wallet():
+class Wallet:
 
     def __init__(self):
         self.key_pair = RSA.generate(2048)

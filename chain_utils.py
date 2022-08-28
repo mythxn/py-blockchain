@@ -4,7 +4,7 @@ import jsonpickle
 from Crypto.Hash import SHA256
 
 
-class ChainUtils():
+class ChainUtils:
 
     @staticmethod
     def hash(data):

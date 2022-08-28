@@ -19,7 +19,8 @@ class SocketCommunication(Node):
         if self.socket_connector.port != 10001:
             self.connect_with_node('localhost', 10001)
 
-    def start_socket(self):
+    def start_socket(self, node):
+        self.node = node
         self.start()
         self.peer_discovery_handler.start()
         self.connect_to_first_node()
@@ -34,6 +35,9 @@ class SocketCommunication(Node):
         message = ChainUtils.decode(json.dumps(message))
         if message.msg_type == 'discovery':
             self.peer_discovery_handler.handle_message(message)
+        elif message.msg_type == 'transaction':
+            transaction = message.data
+            self.node.handle_transaction(transaction)
 
     def send(self, receiver, message):
         self.send_to_node(receiver, message)

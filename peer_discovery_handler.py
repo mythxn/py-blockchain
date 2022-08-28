@@ -1,6 +1,9 @@
 import threading
 import time
 
+from chain_utils import ChainUtils
+from message import Message
+
 
 class PeerDiscoveryHandler():
 
@@ -22,4 +25,12 @@ class PeerDiscoveryHandler():
             time.sleep(10)
 
     def handshake(self, connected_node):
-        self.socket_communication.send(connected_node, f'Hello from {self.socket_communication.port}')
+        self.socket_communication.send(connected_node, self.handshake_message())
+
+    def handshake_message(self):
+        own_connector = self.socket_communication.socket_connector
+        own_peers = self.socket_communication.peers
+        data = own_peers
+        message_type = 'discovery'
+        message = Message(own_connector, message_type, data)
+        return ChainUtils.encode(message)

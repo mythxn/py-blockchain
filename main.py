@@ -1,5 +1,6 @@
-from node import Node
 import sys
+
+from node import Node
 
 if __name__ == '__main__':
 

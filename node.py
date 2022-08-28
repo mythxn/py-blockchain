@@ -5,6 +5,7 @@ from wallet import Wallet
 
 
 class Node():
+
     def __init__(self, ip, port):
         self.p2p = None
         self.ip = ip

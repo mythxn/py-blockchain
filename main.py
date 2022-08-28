@@ -1,42 +1,9 @@
-from pprint import pprint
-
-from blockchain import Blockchain
-from chain_utils import ChainUtils
-from transaction_pool import TransactionPool
-from wallet import Wallet
+from node import Node
 
 if __name__ == '__main__':
 
-    blockchain = Blockchain()
-    pool = TransactionPool()
+    node = Node()
 
-    alice = Wallet()
-    bob = Wallet()
-    exchange = Wallet()
-    forger = Wallet()
-
-    exchange_transaction = exchange.create_transaction(alice.pub_key_string(), 10, 'exchange')
-    if not pool.transaction_exists(exchange_transaction):
-        pool.add_transaction(exchange_transaction)
-
-    covered_transactions = blockchain.get_covered_trasaction_set(pool.transactions)
-    prev_hash = ChainUtils.hash(blockchain.blocks[-1].payload()).hexdigest()
-    block_count = len(blockchain.blocks)
-    block_one = forger.create_block(covered_transactions, prev_hash, block_count)
-    blockchain.add_block(block_one)
-    pool.remove_from_pool(block_one.transactions)
-
-    # alice wants to send 5 tokens to bob
-    transaction = alice.create_transaction(bob.pub_key_string(), 5, 'transfer')
-
-    if not pool.transaction_exists(transaction):
-        pool.add_transaction(transaction)
-
-    covered_transactions = blockchain.get_covered_trasaction_set(pool.transactions)
-    prev_hash = ChainUtils.hash(blockchain.blocks[-1].payload()).hexdigest()
-    block_count = len(blockchain.blocks)
-    block_two = forger.create_block(covered_transactions, prev_hash, block_count)
-    blockchain.add_block(block_two)
-    pool.remove_from_pool(block_two.transactions)
-
-    pprint(blockchain.to_json())
+    print(node.blockchain)
+    print(node.transaction_pool)
+    print(node.wallet)

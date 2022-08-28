@@ -14,11 +14,12 @@ class SocketCommunication(Node):
 
     def connect_to_first_node(self):
         if self.socket_connector.port != 10001:
-            self.connect_to_node(SocketConnector('localhost', 10001))
+            self.connect_with_node('localhost', 10001)
 
     def start_socket(self):
         self.start()
         self.peer_discovery_handler.start()
+        self.connect_to_first_node()
 
     def inbound_node_connected(self, connected_node):
         self.peer_discovery_handler.handshake(connected_node)

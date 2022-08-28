@@ -7,10 +7,12 @@ node = None
 
 class NodeAPI:
 
-    def start(self, api_port):
+    @staticmethod
+    def start(api_port):
         uvicorn.run("node_api:app", port=api_port)
 
-    def inject_node(self, injected_node):
+    @staticmethod
+    def inject_node(injected_node):
         global node
         node = injected_node
 

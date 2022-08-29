@@ -46,9 +46,15 @@ class Blockchain:
     def execute_transaction(self, transaction):
         sender = transaction.sender_pub_key
         receiver = transaction.receiver_pub_key
-        amount = transaction.amount
-        self.account_model.update_balance(sender, -amount)
-        self.account_model.update_balance(receiver, amount)
+        if transaction.type == 'stake':
+            if sender == receiver:
+                amount = transaction.amount
+                self.pos.update(sender, amount)
+                self.account_model.update_balance(sender, -amount)
+        else:
+            amount = transaction.amount
+            self.account_model.update_balance(sender, -amount)
+            self.account_model.update_balance(receiver, amount)
 
     def next_forger(self):
         prev_block_hash = ChainUtils.hash(self.blocks[-1].payload()).hexdigest()

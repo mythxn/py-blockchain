@@ -9,7 +9,7 @@ from wallet import Wallet
 
 class Node:
 
-    def __init__(self, ip, port):
+    def __init__(self, ip, port, key=None):
         self.api = None
         self.p2p = None
         self.ip = ip
@@ -17,6 +17,9 @@ class Node:
         self.transaction_pool = TransactionPool()
         self.wallet = Wallet()
         self.blockchain = Blockchain()
+
+        if key is not None:
+            self.wallet.from_key(key)
 
     def start_p2p(self):
         self.p2p = SocketCommunication(self.ip, self.port)

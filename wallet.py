@@ -11,6 +11,11 @@ class Wallet:
     def __init__(self):
         self.key_pair = RSA.generate(2048)
 
+    def from_key(self, file):
+        with open(file, 'r') as key_file:
+            key = RSA.importKey(key_file.read())
+        self.key_pair = key
+
     def sign(self, data):
         dataHash = ChainUtils.hash(data)
         signature_scheme_obj = PKCS1_v1_5.new(self.key_pair)
@@ -26,7 +31,7 @@ class Wallet:
         return signature_scheme_obj.verify(dataHash, signature)
 
     def pub_key_string(self):
-        return self.key_pair.publickey().export_key('PEM').decode('utf-8')
+        return self.key_pair.publickey().exportKey('PEM').decode('utf-8')
 
     def create_transaction(self, receiver_pub_key, amount, type):
         transaction = Transaction(self.pub_key_string(), receiver_pub_key, amount, type)

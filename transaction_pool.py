@@ -16,3 +16,6 @@ class TransactionPool:
                 new_pool_transactions.append(cur_pool_transaction)
 
         self.transactions = new_pool_transactions
+
+    def forger_required(self):
+        return len(self.transactions) >= 1

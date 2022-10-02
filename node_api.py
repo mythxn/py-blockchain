@@ -1,6 +1,5 @@
 import uvicorn
-from fastapi import FastAPI
-from fastapi import Request
+from fastapi import FastAPI, Request
 
 from chain_utils import ChainUtils
 

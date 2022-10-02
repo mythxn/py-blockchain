@@ -36,7 +36,8 @@ class Node:
         signer_pub_key = transaction.sender_pub_key
         signature_valid = Wallet.signature_valid(data, signature, signer_pub_key)
         transaction_exists = self.transaction_pool.transaction_exists(transaction)
-        if not transaction_exists and signature_valid:
+        transaction_in_block = self.blockchain.transaction_exists(transaction)
+        if not transaction_exists and not transaction_in_block and signature_valid:
             self.transaction_pool.add_transaction(transaction)
             message = Message(self.p2p.socket_connector, 'transaction', transaction)
             encoded_msg = ChainUtils.encode(message)
@@ -44,9 +45,31 @@ class Node:
             if self.transaction_pool.forger_required():
                 self.forge()
 
+    def handle_block(self, block):
+        forger = block.forger
+        block_hash = block.payload()
+        signature = block.signature
+
+        block_count_valid = self.blockchain.block_count_valid(block)
+        prev_block_hash_valid = self.blockchain.prev_block_hash_valid(block)
+        forger_valid = self.blockchain.forger_valid(block)
+        transactions_valid = self.blockchain.transaction_valid(block)
+        signature_valid = Wallet.signature_valid(block_hash, signature, forger)
+
+        if prev_block_hash_valid and forger_valid and transactions_valid and signature_valid and block_count_valid:
+            self.blockchain.add_block(block)
+            self.transaction_pool.remove_from_pool(block.transactions)
+            message = Message(self.p2p.socket_connector, 'block', block)
+            encoded_msg = ChainUtils.encode(message)
+            self.p2p.broadcast(encoded_msg)
+
     def forge(self):
         forger = self.blockchain.next_forger()
         if forger == self.wallet.pub_key_string():
-            print('im the next forger')
+            block = self.blockchain.create_block(self.transaction_pool, self.wallet)
+            self.transaction_pool.remove_from_pool(block.transactions)
+            message = Message(self.p2p.socket_connector, 'block', block)
+            encoded_msg = ChainUtils.encode(message)
+            self.p2p.broadcast(encoded_msg)
         else:
             print('im not the next forger')
